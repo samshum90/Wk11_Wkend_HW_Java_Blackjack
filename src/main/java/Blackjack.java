@@ -24,9 +24,16 @@ public class Blackjack {
         this.players.add(player);
     }
 
+    public void removePlayer(Player player) {
+        this.players.remove(player);
+    }
 
     public int playerCount() {
         return this.players.size();
+    }
+
+    public String getDealerName() {
+        return this.dealer.getName();
     }
 
     public void startGame() {
@@ -40,63 +47,6 @@ public class Blackjack {
                 player.takeCard(card);
             }
         }
-    }
-
-
-    public boolean checkDraw() {
-        boolean drawgame = true;
-        int dealerTotal = this.dealer.handTotal();
-        for (Player player : this.players) {
-            if (player.handTotal() != dealerTotal && !player.getBust() && player.getStatus()) {
-                drawgame = false;
-            }
-        }
-        return drawgame;
-    }
-
-    public String dealerBustWinner() {
-        int highest = 0;
-        Player playerWinner = null;
-        for (Player player : this.players) {
-            if (player.handTotal() > highest && !player.getBust() && player.getStatus()) {
-                highest = player.handTotal();
-                playerWinner = player;
-            }
-        }
-        return String.format("Player %s is the Winner!", playerWinner.getName());
-    }
-
-    public Player playerWinner() {
-        int highest = 0;
-        Player winner = null;
-        for (Player player : this.players) {
-            if (player.handTotal() > highest && !player.getBust()) {
-                highest = player.handTotal();
-                winner = player;
-            }
-        }
-        return winner;
-    }
-
-
-    public String checkWinner( Player player){
-        String result = null;
-        if (!player.getBust() && !dealer.getBust()){
-            if(!dealer.getBust()){
-                if (dealer.handTotal() > player.handTotal()){
-                    result = String.format("Dealer %s is the Winner!", dealer.getName());
-                } else if (dealer.handTotal() == player.handTotal()){
-                    result = String.format("Player %s and Dealer %s draw", player.getName(), dealer.getName());
-                } else {
-                    result = String.format("Player %s is the Winner!", player.getName());
-                }
-            } else  {
-                result = String.format("Player %s is the Winner!", player.getName());
-            }
-        } else  {
-            result = "Everyone Loses";
-        }
-        return result;
     }
 
     public boolean checkPlayerBust() {
@@ -123,15 +73,6 @@ public class Blackjack {
             bust = true;
         }
         return bust;
-    }
-
-    public void removePlayer(Player player) {
-        this.players.remove(player);
-    }
-
-    public void bustPlayer( Player player) {
-        removePlayer(player);
-        System.out.println("You went BUST!");
     }
 
     public void twistPlayer(Player player) {
@@ -201,11 +142,13 @@ public class Blackjack {
             playGameResponse( player);
         }
     }
-
-    public String getDealerName() {
-        return this.dealer.getName();
+    public void dealerBusted(){
+        if( this.dealer.handTotal() > 21 ){
+            this.dealer.busted();
+            String dealerBusted = String.format("Dealer %s went BUST!", dealer.getName());
+            System.out.println(dealerBusted);
+        }
     }
-
     public void dealerPlay() {
         dealerCardInfo();
             if ( this.dealer.handTotal() < 19 ) {
@@ -215,11 +158,7 @@ public class Blackjack {
                 dealer.takeCard(card);
                 String showCard = String.format("Dealer drew a %s", card.cardName());
                 System.out.println(showCard);
-                if( this.dealer.handTotal() > 21 ){
-                    this.dealer.busted();
-                    String dealerBusted = String.format("Dealer %s went BUST!", dealer.getName());
-                    System.out.println(dealerBusted);
-                }
+                dealerBusted();
                 dealerPlay();
         }
     }
@@ -232,5 +171,47 @@ public class Blackjack {
         }
         System.out.println(String.format("Dealer hand total: %s", dealer.handTotal()));
     }
+    public boolean checkDraw() {
+        boolean drawgame = true;
+        int dealerTotal = this.dealer.handTotal();
+        for (Player player : this.players) {
+            if (player.handTotal() != dealerTotal && !player.getBust() && player.getStatus()) {
+                drawgame = false;
+            }
+        }
+        return drawgame;
+    }
 
+    public Player playerWinner() {
+        int highest = 0;
+        Player winner = null;
+        for (Player player : this.players) {
+            if (player.handTotal() > highest && !player.getBust()) {
+                highest = player.handTotal();
+                winner = player;
+            }
+        }
+        return winner;
+    }
+
+
+    public String checkWinner( Player player){
+        String result = null;
+        if (!player.getBust()){
+            if(!dealer.getBust()){
+                if (dealer.handTotal() > player.handTotal()){
+                    result = String.format("Dealer %s is the Winner!", dealer.getName());
+                } else if (dealer.handTotal() == player.handTotal()){
+                    result = String.format("Player %s and Dealer %s draw", player.getName(), dealer.getName());
+                } else {
+                    result = String.format("Player %s is the Winner!", player.getName());
+                }
+            } else  {
+                result = String.format("Player %s is the Winner!", player.getName());
+            }
+        } else  {
+            result = "Players Lose";
+        }
+        return result;
+    }
 }
