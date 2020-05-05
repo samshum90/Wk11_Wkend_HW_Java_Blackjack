@@ -41,8 +41,10 @@ public class BlackJackTest {
 
     @Test
     public void getDealerName(){
+
         assertEquals( "Jo", blackjack.getDealerName());
     }
+
     @Test
     public void startGame(){
         blackjack.startGame();

@@ -26,15 +26,21 @@ public class Player {
         return this.hand.get(i).cardName();
     }
 
+
+//  We want a method to return a integer with the total value of the cards in my hand
     public int handTotal() {
+//  Initialize total to zero
         int total = 0;
+//  for every card in the hand Array list
         for(Card card : this.hand){
+//  add the value from the card and add it to the total
             total += card.getValueFromCard();
         }
+//  return the total
         return total;
     }
 
-    public Object getName() {
+    public String getName() {
         return this.name;
     }
 

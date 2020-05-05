@@ -8,6 +8,7 @@ public class CardTest {
 
     @Before
     public void before() {
+
         card = new Card( Suit.DIAMONDS, Rank.KING);
     }
 
