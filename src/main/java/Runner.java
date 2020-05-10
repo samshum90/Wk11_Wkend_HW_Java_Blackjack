@@ -12,10 +12,23 @@ public class Runner {
 
 
 // Adds players
-        blackjack.createPlayers();
+        System.out.println("Welcome to Blackjack!");
+        System.out.println("How many players would you like to play?");
+
+        String numOfPlayers = scanner.next();
+        int players = parseInt(numOfPlayers);
+        for (int i = 0; i < players; i++) {
+            String prompt = String.format("Player %s, enter your name: ", (i + 1));
+            System.out.println(prompt);
+            String playerName = scanner.next();
+            Player player = new Player(playerName);
+            blackjack.addPlayer(player);
+        }
 
 // Deals out cards
         blackjack.startGame();
+
+        
 //play Game
         blackjack.playGame();
 //dealer Play

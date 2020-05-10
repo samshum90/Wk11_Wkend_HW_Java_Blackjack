@@ -36,19 +36,6 @@ public class Blackjack {
         return this.dealer.getName();
     }
 
-    public void startGame() {
-        for (int j = 0; j < 2; j++) {
-            Card card = deck.dealOne();
-            this.dealer.takeCard(card);
-        }
-        for (Player player : this.players) {
-            for (int i = 0; i < 2; i++) {
-                Card card = deck.dealOne();
-                player.takeCard(card);
-            }
-        }
-    }
-
     public boolean checkPlayerBust() {
         boolean bust = false;
         for (Player player : this.players) {
@@ -78,20 +65,19 @@ public class Blackjack {
     public void twistPlayer(Player player) {
         Card card = deck.dealOne();
         player.takeCard(card);
+        System.out.println(String.format("You drew a %s", card.cardName()));
     }
 
-    public void createPlayers() {
-        System.out.println("Welcome to Blackjack!");
-        System.out.println("How many players would you like to play?");
-
-        String input = scanner.next();
-        int players = parseInt(input);
-        for (int i = 0; i < players; i++) {
-            String prompt = String.format("Player %s, enter your name: ", (i + 1));
-            System.out.println(prompt);
-            String playerName = scanner.next();
-            Player player = new Player(playerName);
-            addPlayer(player);
+    public void startGame() {
+        for (int j = 0; j < 2; j++) {
+            Card card = deck.dealOne();
+            this.dealer.takeCard(card);
+        }
+        for (Player player : this.players) {
+            for (int i = 0; i < 2; i++) {
+                Card card = deck.dealOne();
+                player.takeCard(card);
+            }
         }
     }
 
@@ -109,10 +95,9 @@ public class Blackjack {
     public void cardInfo(Player player, Dealer dealer){
         String dealerOutput = String.format("Dealer %s has:", dealer.getName());
         System.out.println(dealerOutput);
-        for (int i = 0; i < 1; i++) {
-            System.out.println(dealer.showCard(i));
+            System.out.println(dealer.showFirstCard());
             System.out.println(String.format("Dealer Hand total: %s", dealer.showFirstCardValue()));
-        }
+
 
         String playerOutput = String.format("%s has:", player.getName());
         System.out.println(playerOutput);

@@ -54,6 +54,12 @@ public class DealerTest {
     }
 
     @Test
+    public void showFirstCard(){
+        dealer.takeCard(card);
+        assertEquals("ACE of SPADES", dealer.showFirstCard());
+    }
+
+    @Test
     public void getFirstCardValue(){
         dealer.takeCard(card);
         assertEquals(11, dealer.showFirstCardValue());

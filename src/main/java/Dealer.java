@@ -50,4 +50,8 @@ public class Dealer {
     public int showFirstCardValue() {
         return this.hand.get(0).getValueFromCard();
     }
+
+    public String showFirstCard() {
+        return this.hand.get(0).cardName();
+    }
 }
